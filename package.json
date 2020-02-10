@@ -4,8 +4,16 @@
   "description": "implement queue with bull",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Stone Wei",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "async-redis": "^1.1.7",
+    "bull": "^3.12.1",
+    "bull-arena": "^2.7.1",
+    "config": "^3.2.5",
+    "express": "^4.17.1"
+  }
 }
