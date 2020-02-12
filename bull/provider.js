@@ -1,7 +1,7 @@
 const Queue = require('bull')
 
 const defaultJobOpts = {
-  delay: 60 * 1000, // seconds
+  delay: 30 * 1000, // seconds
   attempts: 3,
   removeOnComplete: true,
   removeOnFail: false
@@ -14,7 +14,6 @@ exports.initQueue = async (queueName, redis) => {
   return new Promise(async (resolve, reject) => {
     try {
       const queue = new Queue(queueName, { redis, prefix: 'bull' })
-
       await queue.isReady()
       appQueue = queue
       resolve()
