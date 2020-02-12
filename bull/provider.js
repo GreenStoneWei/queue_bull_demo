@@ -14,7 +14,7 @@ exports.initQueue = async (queueName, redis) => {
   return new Promise(async (resolve, reject) => {
     try {
       const queue = new Queue(queueName, { redis, prefix: 'bull' })
-      // console.log({ redisConfig, prefix: 'bull' })
+
       await queue.isReady()
       appQueue = queue
       resolve()
