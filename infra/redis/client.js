@@ -7,7 +7,7 @@ exports.set = async (id, data) => {
   try {
     await oldClient.set(`${PREFIX}:${id}`, JSON.stringify(data), TTL_UNIT, TTL)
     // when migration, add this line
-    // await newClient.set(`${PREFIX}:${id}`, JSON.stringify(data), TTL_UNIT, TTL)
+    await newClient.set(`${PREFIX}:${id}`, JSON.stringify(data), TTL_UNIT, TTL)
     return 'OK'
   } catch (error) {
     console.log(JSON.stringify(error, Object.getOwnPropertyNames(error)))

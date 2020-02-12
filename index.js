@@ -14,13 +14,13 @@ const { consume } = require('./bull/consumer')
 
 const main = async () => {
   // when migration, change oldRedisConfig to newRedisConfig
-  await initQueue('App', oldRedisConfig)
-  // await initQueue('App', newRedisConfig)
+  // await initQueue('App', oldRedisConfig)
+  await initQueue('App', newRedisConfig)
 
   addJobs()
   consume('App', oldRedisConfig)
   // when migration, add new, keep old one
-  // consume('App', newRedisConfig)
+  consume('App', newRedisConfig)
 
   const arena = Arena({
     queues: arenaGUI.queues
@@ -45,7 +45,7 @@ const addJobs = async () => {
       async () => {
         console.log('adding... i = ', i)
         await add(i)
-        await oldClient.incr('jobCount') // old -> new
+        await newClient.incr('jobCount') // old -> new
       },
       i * 3000,
       i
