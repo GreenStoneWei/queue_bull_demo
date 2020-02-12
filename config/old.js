@@ -1,5 +1,10 @@
 module.exports = {
   redis: {
-    port: 6379
+    old: {
+      port: 6379
+    },
+    new: {
+      port: 6389
+    }
   }
 }

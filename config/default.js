@@ -1,7 +1,14 @@
 module.exports = {
   redis: {
-    host: 'localhost',
-    password: undefined,
-    db: undefined
+    old: {
+      host: 'localhost',
+      password: undefined,
+      db: undefined
+    },
+    new: {
+      host: 'localhost',
+      password: undefined,
+      db: undefined
+    }
   }
 }
