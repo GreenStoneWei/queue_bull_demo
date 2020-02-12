@@ -45,7 +45,7 @@ const addJobs = async () => {
       async () => {
         console.log('adding... i = ', i)
         await add(i)
-        await oldClient.incr('jobCount') // old -> new
+        await oldClient.incr('App:jobCount') // old -> new
       },
       i * 3000,
       i
