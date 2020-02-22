@@ -16,12 +16,9 @@ exports.set = async (id, data) => {
 
 exports.redisGet = async id => {
   try {
-    let data
-    data = await newClient.get(`${PREFIX}:${id}`)
-    if (data === null) {
-      data = await oldClient.get(`${PREFIX}:${id}`)
-    }
-    if (data === null) return
+    let data = await newClient.get(`${PREFIX}:${id}`)
+    if (!data) data = await oldClient.get(`${PREFIX}:${id}`)
+    if (!data) return
     return JSON.parse(data)
   } catch (error) {
     console.log(JSON.stringify(error, Object.getOwnPropertyNames(error)))

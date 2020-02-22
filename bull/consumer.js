@@ -1,5 +1,4 @@
 const config = require('config')
-const redisConfig = config.get('redis')
 const Queue = require('bull')
 const fs = require('fs').promises
 

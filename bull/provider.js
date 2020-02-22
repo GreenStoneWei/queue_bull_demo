@@ -1,7 +1,7 @@
 const Queue = require('bull')
 
 const defaultJobOpts = {
-  delay: 30 * 1000, // seconds
+  delay: 20 * 1000, // seconds
   attempts: 3,
   removeOnComplete: true,
   removeOnFail: false
@@ -35,7 +35,7 @@ exports.add = async jobId => {
   let job = await appQueue.getJob(jobId)
   if (!job) {
     /** Add a new job to queue */
-    job = await appQueue.add({ jobId }, { ...defaultJobOpts, jobId }) // Default delay for 65s, jobId could not be override
+    job = await appQueue.add({ jobId }, { ...defaultJobOpts, jobId }) // Default delay for 20s, jobId could not be override
   } else {
     /** If the job is existed, retry */
     await job.retry().catch(error => console.log(error.message))
