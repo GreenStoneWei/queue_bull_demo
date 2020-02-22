@@ -3,7 +3,7 @@ const Queue = require('bull')
 const defaultJobOpts = {
   delay: 20 * 1000, // seconds
   attempts: 3,
-  removeOnComplete: true,
+  // removeOnComplete: true,
   removeOnFail: false
 }
 

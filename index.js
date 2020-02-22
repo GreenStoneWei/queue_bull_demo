@@ -1,26 +1,21 @@
 // config
 const config = require('config')
-const oldRedisConfig = config.get('redis.old')
-const newRedisConfig = config.get('redis.new')
+const redisConfig = config.get('redis')
 // Queue Arena
 const Arena = require('bull-arena')
 const express = require('express')
 const app = express()
 const arenaGUI = require('./config/server/index.json')
-const { oldClient } = require('./infra/redis')
+const { client } = require('./infra/redis')
 const { set, redisGet } = require('./infra/redis/client')
 const { initQueue, add } = require('./bull/provider')
 const { consume } = require('./bull/consumer')
 
 const main = async () => {
-  // when migration, change oldRedisConfig to newRedisConfig
-  await initQueue('App', oldRedisConfig)
-  // await initQueue('App', newRedisConfig)
+  await initQueue('App', redisConfig)
 
   addJobs()
-  consume('App', oldRedisConfig)
-  // when migration, add new, keep old one
-  // consume('App', newRedisConfig)
+  consume('App', redisConfig)
 
   const arena = Arena({
     queues: arenaGUI.queues
@@ -45,7 +40,7 @@ const addJobs = async () => {
       async () => {
         console.log('adding... i = ', i)
         await add(i)
-        await oldClient.incr('App:jobCount') // old -> new
+        await client.incr('App:jobCount')
       },
       i * 3000,
       i

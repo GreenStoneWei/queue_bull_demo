@@ -1,14 +1,13 @@
 const asyncRedis = require('async-redis')
 const config = require('config')
-const oldRedisConf = config.get('redis.old')
-const newRedisConf = config.get('redis.new')
+const redisConf = config.get('redis')
 
-const oldClient = asyncRedis.createClient({
-  host: oldRedisConf.host,
-  port: oldRedisConf.port,
-  password: oldRedisConf.password,
-  db: oldRedisConf.db,
-  retry_strategy: function (options) {
+const client = asyncRedis.createClient({
+  host: redisConf.host,
+  port: redisConf.port,
+  password: redisConf.password,
+  db: redisConf.db,
+  retry_strategy: function(options) {
     if (options.total_retry_time > 1000 * 30) {
       return new Error('Retry time exhausted')
     }
@@ -16,20 +15,7 @@ const oldClient = asyncRedis.createClient({
   }
 })
 
-const newClient = asyncRedis.createClient({
-  host: newRedisConf.host,
-  port: newRedisConf.port,
-  password: newRedisConf.password,
-  db: newRedisConf.db,
-  retry_strategy: function (options) {
-    if (options.total_retry_time > 1000 * 30) {
-      return new Error('Retry time exhausted')
-    }
-    return Math.max(options.attempt * 100, 3000)
-  }
-})
-
-async function init () {
+async function init() {
   return new Promise((resolve, reject) => {
     client.on('ready', () => {
       logger.info({ tag, msg: `Redis ready on: ${process.env.NODE_ENV}` })
@@ -47,13 +33,12 @@ async function init () {
   })
 }
 
-async function disconnect () {
+async function disconnect() {
   await client.quit()
 }
 
 module.exports = {
-  oldClient,
-  newClient,
+  client,
   init,
   disconnect
 }
